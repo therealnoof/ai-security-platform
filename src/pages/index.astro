@@ -1,0 +1,269 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+
+const features = [
+  {
+    icon: '🔬',
+    title: 'Deep Research',
+    description: 'In-depth analysis of AI security vulnerabilities, attack vectors, and defense strategies.'
+  },
+  {
+    icon: '📊',
+    title: 'Weekly Digests',
+    description: 'Curated summaries of the most important AI security developments each week.'
+  },
+  {
+    icon: '🤖',
+    title: 'AI-Assisted',
+    description: 'Research enhanced by Claude AI to surface insights and connections you might miss.'
+  },
+  {
+    icon: '🛡️',
+    title: 'Practical Defense',
+    description: 'Actionable guidance for securing AI systems in production environments.'
+  }
+];
+
+const topics = [
+  'Prompt Injection',
+  'Model Security',
+  'Data Poisoning',
+  'Jailbreaking',
+  'AI Red Teaming',
+  'LLM Guardrails',
+  'Supply Chain',
+  'Privacy Attacks'
+];
+---
+
+<BaseLayout title="Home">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-badge">Neural Threats</span>
+        <h1>Stay Ahead of<br><span class="gradient-text">AI Security Threats</span></h1>
+        <p class="hero-desc">
+          Curated research, threat intelligence, and weekly digests on adversarial AI,
+          LLM vulnerabilities, and defensive strategies for securing AI systems.
+        </p>
+        <div class="hero-actions">
+          <a href="/blog" class="btn btn-primary">
+            Browse Research
+            <span>→</span>
+          </a>
+          <a href="/digests" class="btn btn-secondary">
+            Weekly Digests
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="features-grid">
+        {features.map(feature => (
+          <div class="feature-card card">
+            <span class="feature-icon">{feature.icon}</span>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Topics Section -->
+  <section class="topics">
+    <div class="container">
+      <h2>Topics We Cover</h2>
+      <div class="topics-grid">
+        {topics.map(topic => (
+          <a href={`/tags/${topic.toLowerCase().replace(/\s+/g, '-')}`} class="topic-tag">
+            {topic}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Get the Weekly Digest</h2>
+        <p>The most important AI security news and research, delivered every Friday.</p>
+        <a href="/digests" class="btn btn-primary">View Latest Digest →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    padding: 6rem 0 4rem;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-accent-cyan);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  /* Features */
+  .features {
+    padding: 4rem 0;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    text-align: center;
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Topics */
+  .topics {
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .topics h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .topics-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .topic-tag {
+    padding: 0.5rem 1.25rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    transition: all 0.2s ease;
+  }
+
+  .topic-tag:hover {
+    border-color: var(--color-accent-cyan);
+    color: var(--color-accent-cyan);
+    background: rgba(34, 211, 238, 0.1);
+  }
+
+  /* CTA */
+  .cta {
+    padding: 4rem 0;
+  }
+
+  .cta-card {
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(59, 130, 246, 0.1));
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+  }
+
+  .cta-card h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-card p {
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 4rem 0 3rem;
+    }
+
+    .hero h1 {
+      font-size: 2.25rem;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-card {
+      padding: 2rem;
+    }
+  }
+</style>

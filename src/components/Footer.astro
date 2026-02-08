@@ -1,0 +1,170 @@
+---
+const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+  {
+    title: 'Content',
+    links: [
+      { href: '/blog', label: 'Research' },
+      { href: '/digests', label: 'Weekly Digests' },
+      { href: '/tags', label: 'Topics' },
+    ]
+  },
+  {
+    title: 'Resources',
+    links: [
+      { href: '/about', label: 'About' },
+      { href: '/rss.xml', label: 'RSS Feed' },
+      { href: 'https://github.com', label: 'GitHub' },
+    ]
+  }
+];
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="brand-link">
+          <span class="brand-icon">🛡️</span>
+          <span class="brand-text">Neural Threats</span>
+        </a>
+        <p class="brand-desc">
+          Curated AI security research, threat intelligence, and weekly digests
+          to help you stay ahead of emerging risks.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        {footerLinks.map(section => (
+          <div class="link-section">
+            <h4>{section.title}</h4>
+            <ul>
+              {section.links.map(link => (
+                <li>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {currentYear} Neural Threats. All rights reserved.</p>
+      <p class="powered-by">
+        Powered by <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>
+        & <a href="https://www.anthropic.com" target="_blank" rel="noopener">Claude</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+    padding: 3rem 0 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .brand-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .brand-icon {
+    font-size: 1.3rem;
+  }
+
+  .brand-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 320px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 3rem;
+  }
+
+  .link-section h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .link-section ul {
+    list-style: none;
+  }
+
+  .link-section li {
+    margin-bottom: 0.5rem;
+  }
+
+  .link-section a {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .link-section a:hover {
+    color: var(--color-accent-cyan);
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .powered-by a {
+    color: var(--color-text-secondary);
+  }
+
+  .powered-by a:hover {
+    color: var(--color-accent-cyan);
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer-links {
+      gap: 2rem;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+  }
+</style>

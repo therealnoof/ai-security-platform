@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="About Neural Threats - our mission and approach.">
+  <section class="about-page">
+    <div class="container">
+      <div class="about-content">
+        <h1>About Neural Threats</h1>
+
+        <div class="intro">
+          <p>
+            Neural Threats is a research platform dedicated to tracking, analyzing, and
+            explaining the rapidly evolving landscape of AI security threats and defenses.
+          </p>
+        </div>
+
+        <section class="about-section">
+          <h2>Our Mission</h2>
+          <p>
+            As AI systems become more powerful and widely deployed, the security challenges
+            they present grow increasingly complex. We believe that understanding these
+            challenges is essential for building AI systems that are safe, reliable, and
+            trustworthy.
+          </p>
+          <p>
+            Our goal is to make AI security research accessible to practitioners, researchers,
+            and decision-makers who need to understand and address these risks.
+          </p>
+        </section>
+
+        <section class="about-section">
+          <h2>What We Cover</h2>
+          <ul class="topic-list">
+            <li>
+              <strong>Adversarial Attacks</strong> — Prompt injection, jailbreaking, and
+              techniques attackers use to manipulate AI systems
+            </li>
+            <li>
+              <strong>Model Security</strong> — Vulnerabilities in training, deployment,
+              and inference pipelines
+            </li>
+            <li>
+              <strong>Data Security</strong> — Poisoning attacks, privacy leakage, and
+              training data extraction
+            </li>
+            <li>
+              <strong>Defensive Techniques</strong> — Guardrails, monitoring, red teaming,
+              and best practices for secure AI
+            </li>
+            <li>
+              <strong>Emerging Threats</strong> — Novel attack vectors and security
+              implications of new AI capabilities
+            </li>
+          </ul>
+        </section>
+
+        <section class="about-section">
+          <h2>Our Approach</h2>
+          <p>
+            We combine human expertise with AI-assisted research to surface insights,
+            identify patterns, and provide actionable analysis. Each article is researched,
+            written, and reviewed with a focus on accuracy, clarity, and practical value.
+          </p>
+        </section>
+
+        <section class="about-section contact">
+          <h2>Get in Touch</h2>
+          <p>
+            Have questions, suggestions, or research to share? We'd love to hear from you.
+          </p>
+          <a href="mailto:hello@example.com" class="btn btn-primary">Contact Us →</a>
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding: 4rem 0;
+  }
+
+  .about-content {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .about-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .intro {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .about-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--color-accent-cyan);
+  }
+
+  .about-section p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .topic-list {
+    list-style: none;
+  }
+
+  .topic-list li {
+    padding: 1rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .topic-list li strong {
+    color: var(--color-text-primary);
+  }
+
+  .topic-list li {
+    color: var(--color-text-secondary);
+  }
+
+  .contact {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .contact h2 {
+    color: var(--color-text-primary);
+  }
+
+  .contact .btn {
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .about-page {
+      padding: 3rem 0;
+    }
+
+    .about-content h1 {
+      font-size: 2rem;
+    }
+
+    .intro {
+      font-size: 1.1rem;
+    }
+  }
+</style>

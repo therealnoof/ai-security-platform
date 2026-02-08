@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const digests = await getCollection('digests', ({ data }) => !data.draft);
+const sortedDigests = digests.sort((a, b) =>
+  new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
+---
+
+<BaseLayout title="Weekly Digests" description="Weekly curated summaries of AI security news and research.">
+  <section class="page-header">
+    <div class="container">
+      <h1>Weekly Digests</h1>
+      <p>Curated summaries of the most important AI security developments, delivered every Friday.</p>
+    </div>
+  </section>
+
+  <section class="digests-section">
+    <div class="container">
+      {sortedDigests.length === 0 ? (
+        <div class="empty-state">
+          <span class="empty-icon">📊</span>
+          <h2>Coming Soon</h2>
+          <p>Weekly digests are being prepared. The first issue will be published soon.</p>
+        </div>
+      ) : (
+        <div class="digests-grid">
+          {sortedDigests.map(digest => (
+            <a href={`/digests/${digest.slug}`} class="digest-card card">
+              <div class="digest-meta">
+                <span class="digest-week">Week {digest.data.weekNumber}</span>
+                <span class="digest-year">{digest.data.year}</span>
+              </div>
+              <h3>{digest.data.title}</h3>
+              <p>{digest.data.description}</p>
+              {digest.data.highlights.length > 0 && (
+                <ul class="digest-highlights">
+                  {digest.data.highlights.slice(0, 3).map(highlight => (
+                    <li>{highlight}</li>
+                  ))}
+                </ul>
+              )}
+              <span class="read-more">Read digest →</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding: 4rem 0 3rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-header p {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .digests-section {
+    padding: 3rem 0;
+  }
+
+  .digests-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .digest-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .digest-card:hover h3 {
+    color: var(--color-accent-cyan);
+  }
+
+  .digest-meta {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .digest-week {
+    padding: 0.25rem 0.5rem;
+    background: rgba(34, 211, 238, 0.1);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent-cyan);
+  }
+
+  .digest-year {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .digest-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s ease;
+  }
+
+  .digest-card p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .digest-highlights {
+    list-style: none;
+    margin-bottom: 1rem;
+  }
+
+  .digest-highlights li {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    padding-left: 1rem;
+    position: relative;
+    margin-bottom: 0.25rem;
+  }
+
+  .digest-highlights li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-cyan);
+  }
+
+  .read-more {
+    font-size: 0.85rem;
+    color: var(--color-accent-cyan);
+    font-weight: 500;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .empty-state h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 3rem 0 2rem;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+    }
+
+    .digests-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

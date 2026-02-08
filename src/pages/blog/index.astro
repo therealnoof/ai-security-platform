@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) =>
+  new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
+---
+
+<BaseLayout title="Research" description="AI security research, analysis, and threat intelligence.">
+  <section class="page-header">
+    <div class="container">
+      <h1>Research</h1>
+      <p>In-depth analysis of AI security vulnerabilities, attack vectors, and defense strategies.</p>
+    </div>
+  </section>
+
+  <section class="posts-section">
+    <div class="container">
+      {sortedPosts.length === 0 ? (
+        <div class="empty-state">
+          <span class="empty-icon">📝</span>
+          <h2>Coming Soon</h2>
+          <p>Research articles are being prepared. Check back soon for in-depth AI security analysis.</p>
+        </div>
+      ) : (
+        <div class="posts-grid">
+          {sortedPosts.map(post => (
+            <Card
+              title={post.data.title}
+              description={post.data.description}
+              href={`/blog/${post.slug}`}
+              date={post.data.pubDate.toISOString()}
+              tags={post.data.tags}
+              featured={post.data.featured}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding: 4rem 0 3rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-header p {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .posts-section {
+    padding: 3rem 0;
+  }
+
+  .posts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .empty-state h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 3rem 0 2rem;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
