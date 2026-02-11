@@ -19,7 +19,7 @@ MODEL = "claude-sonnet-4-5-20250929"
 MAX_TOKENS = 8192
 MAX_RETRIES = 3
 BACKOFF_SECONDS = [60, 120, 240]
-TURN_DELAY = 30  # seconds between continuation calls to stay under rate limits
+TURN_DELAY = 65  # seconds between API calls — just over 1 min to reset the token window
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DIGESTS_DIR = REPO_ROOT / "src" / "content" / "digests"
@@ -84,6 +84,28 @@ def load_prompt(name: str, **kwargs) -> str:
 # ── API Calls ────────────────────────────────────────────────────────────────
 
 
+def api_call_with_retries(client: anthropic.Anthropic, **kwargs) -> anthropic.types.Message:
+    """Wrapper around client.messages.create that retries on rate limits and 5xx errors."""
+    for attempt in range(MAX_RETRIES):
+        try:
+            return client.messages.create(**kwargs)
+        except anthropic.RateLimitError:
+            wait = BACKOFF_SECONDS[attempt]
+            print(f"    ⚠ Rate limited (attempt {attempt + 1}/{MAX_RETRIES}), waiting {wait}s...")
+            time.sleep(wait)
+            if attempt == MAX_RETRIES - 1:
+                raise
+        except anthropic.APIStatusError as e:
+            if e.status_code >= 500:
+                wait = BACKOFF_SECONDS[attempt]
+                print(f"    ⚠ Server error {e.status_code} (attempt {attempt + 1}/{MAX_RETRIES}), waiting {wait}s...")
+                time.sleep(wait)
+                if attempt == MAX_RETRIES - 1:
+                    raise
+            else:
+                raise
+
+
 def run_research_pass(client: anthropic.Anthropic, system_prompt: str) -> tuple[str, dict]:
     """Run the research pass with web search. Returns (digest_text, usage_stats)."""
     total_usage = {"input_tokens": 0, "output_tokens": 0}
@@ -95,8 +117,16 @@ def run_research_pass(client: anthropic.Anthropic, system_prompt: str) -> tuple[
         }
     ]
 
+    turn = 0
     while True:
-        response = client.messages.create(
+        # Pause before every call except the first to stay under token-per-minute limits
+        if turn > 0:
+            print(f"    … pausing {TURN_DELAY}s between turns (rate limit headroom)")
+            time.sleep(TURN_DELAY)
+        turn += 1
+
+        response = api_call_with_retries(
+            client,
             model=MODEL,
             max_tokens=MAX_TOKENS,
             system=system_prompt,
@@ -112,8 +142,6 @@ def run_research_pass(client: anthropic.Anthropic, system_prompt: str) -> tuple[
             # Append the assistant's response and continue
             messages.append({"role": "assistant", "content": response.content})
             messages.append({"role": "user", "content": [{"type": "text", "text": "Continue."}]})
-            print(f"    … pausing {TURN_DELAY}s between turns (rate limit headroom)")
-            time.sleep(TURN_DELAY)
             continue
 
         # Extract text from the final response
@@ -129,7 +157,8 @@ def run_review_pass(client: anthropic.Anthropic, digest_text: str) -> tuple[str,
     """Run the self-review pass. Returns (verdict, final_digest, usage_stats)."""
     review_prompt = load_prompt("review_prompt.md")
 
-    response = client.messages.create(
+    response = api_call_with_retries(
+        client,
         model=MODEL,
         max_tokens=MAX_TOKENS,
         messages=[
@@ -404,38 +433,19 @@ def main():
             save_log(log)
             return
 
-        # Research pass with retries
-        digest_text = None
-        research_usage = {}
-        for attempt in range(MAX_RETRIES):
-            try:
-                print(f"\n  ▶ Research pass (attempt {attempt + 1}/{MAX_RETRIES})...")
-                digest_text, research_usage = run_research_pass(
-                    client,
-                    load_prompt(
-                        "system_prompt.md",
-                        week_number=meta["week_number"],
-                        year=meta["year"],
-                        pub_date=meta["pub_date"],
-                        date_range=meta["date_range"],
-                    ),
-                )
-                log["usage"]["research"] = research_usage
-                break
-            except anthropic.RateLimitError:
-                if attempt < MAX_RETRIES - 1:
-                    wait = BACKOFF_SECONDS[attempt]
-                    print(f"  ⚠ Rate limited, retrying in {wait}s...")
-                    time.sleep(wait)
-                else:
-                    raise
-            except anthropic.APIStatusError as e:
-                if e.status_code >= 500 and attempt < MAX_RETRIES - 1:
-                    wait = BACKOFF_SECONDS[attempt]
-                    print(f"  ⚠ Server error ({e.status_code}), retrying in {wait}s...")
-                    time.sleep(wait)
-                else:
-                    raise
+        # Research pass (retries handled inside api_call_with_retries)
+        print("\n  ▶ Research pass...")
+        digest_text, research_usage = run_research_pass(
+            client,
+            load_prompt(
+                "system_prompt.md",
+                week_number=meta["week_number"],
+                year=meta["year"],
+                pub_date=meta["pub_date"],
+                date_range=meta["date_range"],
+            ),
+        )
+        log["usage"]["research"] = research_usage
 
         if not digest_text:
             raise RuntimeError("Research pass produced no output")
@@ -446,8 +456,8 @@ def main():
         if errors:
             print(f"  ⚠ Validation errors (pre-review): {errors}")
 
-        # Review pass (pause first to avoid rate limits after research)
-        print(f"\n  ▶ Pausing {TURN_DELAY}s before review pass...")
+        # Review pass (pause to let token window reset after research)
+        print(f"\n  ▶ Pausing {TURN_DELAY}s before review pass (rate limit cooldown)...")
         time.sleep(TURN_DELAY)
         print("  ▶ Review pass...")
         verdict, digest_text, review_usage = run_review_pass(client, digest_text)
