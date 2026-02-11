@@ -26,7 +26,7 @@ Use web search to find the most important AI security developments from the past
 
 ## Output Format
 
-You MUST output a single Markdown file with YAML frontmatter. The frontmatter MUST match this exact schema:
+You MUST output a single Markdown file with YAML frontmatter and NOTHING else. Do NOT include any preamble, commentary, or explanation before or after the Markdown file. Your response must start with exactly `---` (the YAML frontmatter opening delimiter). The frontmatter MUST match this exact schema:
 
 ```yaml
 ---

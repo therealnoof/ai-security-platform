@@ -113,7 +113,9 @@ def run_research_pass(client: anthropic.Anthropic, system_prompt: str) -> tuple[
         {
             "role": "user",
             "content": "Research this week's AI security news and produce the digest now. "
-            "Use web search extensively across all 7 categories.",
+            "Use web search across all 7 categories. "
+            "Your final output must be ONLY the Markdown file starting with --- (frontmatter). "
+            "No preamble or commentary.",
         }
     ]
 
@@ -130,7 +132,7 @@ def run_research_pass(client: anthropic.Anthropic, system_prompt: str) -> tuple[
             model=MODEL,
             max_tokens=MAX_TOKENS,
             system=system_prompt,
-            tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 20}],
+            tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 10}],
             messages=messages,
         )
 
@@ -145,10 +147,18 @@ def run_research_pass(client: anthropic.Anthropic, system_prompt: str) -> tuple[
             continue
 
         # Extract text from the final response
-        digest_text = ""
+        raw_text = ""
         for block in response.content:
             if block.type == "text":
-                digest_text += block.text
+                raw_text += block.text
+
+        # Strip any preamble before the frontmatter — model may output
+        # commentary like "Here is the digest:" before the actual markdown
+        digest_text = raw_text
+        fm_start = raw_text.find("---\n")
+        if fm_start > 0:
+            print(f"    ℹ Stripped {fm_start} chars of preamble before frontmatter")
+            digest_text = raw_text[fm_start:]
 
         return digest_text, total_usage
 
