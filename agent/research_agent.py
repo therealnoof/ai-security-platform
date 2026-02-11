@@ -58,6 +58,7 @@ def compute_week_metadata() -> dict:
 
     pub_date = today.isoformat()
     date_range = f"{last_monday.strftime('%B %d')} – {last_sunday.strftime('%B %d, %Y')}"
+    week_label = f"{last_monday.strftime('%B')} {last_monday.day}"
     filename = f"{digest_year}-week-{digest_week:02d}.md"
 
     return {
@@ -65,6 +66,7 @@ def compute_week_metadata() -> dict:
         "year": digest_year,
         "pub_date": pub_date,
         "date_range": date_range,
+        "week_label": week_label,
         "filename": filename,
     }
 
@@ -429,7 +431,7 @@ def main():
         # Compute week metadata
         meta = compute_week_metadata()
         log["week_metadata"] = meta
-        print(f"═══ AI Research Agent — Week {meta['week_number']}, {meta['year']} ═══")
+        print(f"═══ AI Research Agent — Week of {meta['week_label']}, {meta['year']} ═══")
         print(f"  Date range: {meta['date_range']}")
         print(f"  Filename:   {meta['filename']}")
 
@@ -451,6 +453,7 @@ def main():
                 year=meta["year"],
                 pub_date=meta["pub_date"],
                 date_range=meta["date_range"],
+                week_label=meta["week_label"],
             ),
         )
         log["usage"]["research"] = research_usage
@@ -482,7 +485,7 @@ def main():
             log["validation_errors"] = errors
             save_log(log)
             create_github_issue(
-                f"[Agent] Digest validation failed — Week {meta['week_number']}, {meta['year']}",
+                f"[Agent] Digest validation failed — Week of {meta['week_label']}, {meta['year']}",
                 f"The research agent produced a digest that failed validation after self-review.\n\n"
                 f"**Errors:**\n```\n{json.dumps(errors, indent=2)}\n```\n\n"
                 f"**Week:** {meta['week_number']}, {meta['year']}\n"

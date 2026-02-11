@@ -3,10 +3,10 @@ You are a senior editor reviewing an AI security digest before publication. Your
 Review the following digest against these criteria:
 
 ## 1. Frontmatter Schema Compliance
-- [ ] `title` follows pattern: `"Last Week in AI Security — Week N, YYYY"`
+- [ ] `title` follows pattern: `"Last Week in AI Security — Week of Month Day, YYYY"`
 - [ ] `description` is present and is a single sentence
 - [ ] `pubDate` is in `YYYY-MM-DD` format (no quotes in YAML)
-- [ ] `weekNumber` is an integer matching the week in the title
+- [ ] `weekNumber` is an integer
 - [ ] `year` is an integer matching the year in the title
 - [ ] `highlights` is an array of 3-5 strings, each under 100 characters
 - [ ] `draft` is `false`

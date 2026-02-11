@@ -6,6 +6,16 @@ const digests = await getCollection('digests', ({ data }) => !data.draft);
 const sortedDigests = digests.sort((a, b) =>
   new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
 );
+
+function getMondayLabel(year: number, weekNumber: number): string {
+  const jan4 = new Date(year, 0, 4);
+  const dayOfWeek = jan4.getDay() || 7;
+  const mondayWeek1 = new Date(jan4);
+  mondayWeek1.setDate(jan4.getDate() - dayOfWeek + 1);
+  const monday = new Date(mondayWeek1);
+  monday.setDate(mondayWeek1.getDate() + (weekNumber - 1) * 7);
+  return monday.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+}
 ---
 
 <BaseLayout title="Last Week in AI" description="Weekly curated summaries of AI security news and research.">
@@ -34,7 +44,7 @@ const sortedDigests = digests.sort((a, b) =>
                 </div>
               )}
               <div class="digest-meta">
-                <span class="digest-week">Week {digest.data.weekNumber}</span>
+                <span class="digest-week">Week of {getMondayLabel(digest.data.year, digest.data.weekNumber)}</span>
                 <span class="digest-year">{digest.data.year}</span>
               </div>
               <h3>{digest.data.title}</h3>

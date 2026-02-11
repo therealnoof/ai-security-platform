@@ -13,6 +13,16 @@ export async function getStaticPaths() {
 const { digest } = Astro.props;
 const { Content } = await render(digest);
 
+function getMondayLabel(year: number, weekNumber: number): string {
+  const jan4 = new Date(year, 0, 4);
+  const dayOfWeek = jan4.getDay() || 7;
+  const mondayWeek1 = new Date(jan4);
+  mondayWeek1.setDate(jan4.getDate() - dayOfWeek + 1);
+  const monday = new Date(mondayWeek1);
+  monday.setDate(mondayWeek1.getDate() + (weekNumber - 1) * 7);
+  return monday.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+}
+
 const formattedDate = digest.data.pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -32,7 +42,7 @@ const formattedDate = digest.data.pubDate.toLocaleDateString('en-US', {
         <a href="/digests" class="back-link">← Back to Last Week in AI</a>
 
         <div class="digest-meta">
-          <span class="digest-week">Week {digest.data.weekNumber}</span>
+          <span class="digest-week">Week of {getMondayLabel(digest.data.year, digest.data.weekNumber)}</span>
           <span class="digest-year">{digest.data.year}</span>
         </div>
 
