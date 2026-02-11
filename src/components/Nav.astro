@@ -13,7 +13,39 @@ const navLinks = [
   <div class="container">
     <nav class="nav-inner">
       <a href="/" class="nav-brand">
-        <span class="brand-icon">🛡️</span>
+        <span class="brand-icon">
+          <svg class="brain-logo" viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brain-grad-nav" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#22d3ee" />
+                <stop offset="50%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#a78bfa" />
+              </linearGradient>
+              <filter id="brain-glow-nav">
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#brain-glow-nav)" stroke="url(#brain-grad-nav)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 28V18" />
+              <path d="M16 18c-2-1-4-2.5-5-5s-2-5.5 0-8c1.5-1.8 3.5-2 5-2" />
+              <path d="M16 18c2-1 4-2.5 5-5s2-5.5 0-8c-1.5-1.8-3.5-2-5-2" />
+              <path d="M8 11c-2.5 0-4.5 1.5-4.5 4s2 3.5 3.5 4c1 .3 2 .2 3 0" />
+              <path d="M24 11c2.5 0 4.5 1.5 4.5 4s-2 3.5-3.5 4c-1 .3-2 .2-3 0" />
+              <path d="M10.5 7c-1.5-1-3.5-.5-4.5 1s-.5 3.5 1 4.5" />
+              <path d="M21.5 7c1.5-1 3.5-.5 4.5 1s.5 3.5-1 4.5" />
+              <path d="M12 22c-2 .5-4 1.5-4 3.5S10 29 12 28.5" />
+              <path d="M20 22c2 .5 4 1.5 4 3.5S22 29 20 28.5" />
+              <circle cx="12" cy="10" r="1" fill="url(#brain-grad-nav)" />
+              <circle cx="20" cy="10" r="1" fill="url(#brain-grad-nav)" />
+              <circle cx="10" cy="16" r="0.8" fill="url(#brain-grad-nav)" />
+              <circle cx="22" cy="16" r="0.8" fill="url(#brain-grad-nav)" />
+            </g>
+          </svg>
+        </span>
         <span class="brand-text">Neural <span class="brand-accent">Threats</span></span>
       </a>
 
@@ -68,7 +100,18 @@ const navLinks = [
   }
 
   .brand-icon {
-    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .brain-logo {
+    animation: brain-pulse 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.4));
+  }
+
+  @keyframes brain-pulse {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.4)); opacity: 1; }
+    50% { filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.7)); opacity: 0.9; }
   }
 
   .brand-accent {
