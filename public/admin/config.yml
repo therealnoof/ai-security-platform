@@ -41,7 +41,7 @@ collections:
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: digests
-    label: "Weekly Digests"
+    label: "Last Week in AI"
     folder: src/content/digests
     create: true
     slug: "{{slug}}"
