@@ -27,7 +27,7 @@ const sortedDigests = digests.sort((a, b) =>
       ) : (
         <div class="digests-grid">
           {sortedDigests.map(digest => (
-            <a href={`/digests/${digest.slug}`} class="digest-card card">
+            <a href={`/digests/${digest.id.replace(/\.md$/, '')}`} class="digest-card card">
               <div class="digest-meta">
                 <span class="digest-week">Week {digest.data.weekNumber}</span>
                 <span class="digest-year">{digest.data.year}</span>

@@ -31,7 +31,7 @@ const sortedPosts = posts.sort((a, b) =>
             <Card
               title={post.data.title}
               description={post.data.description}
-              href={`/blog/${post.slug}`}
+              href={`/blog/${post.id.replace(/\.md$/, '')}`}
               date={post.data.pubDate.toISOString()}
               tags={post.data.tags}
               featured={post.data.featured}

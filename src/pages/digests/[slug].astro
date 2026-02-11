@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const digests = await getCollection('digests', ({ data }) => !data.draft);
+  return digests.map((digest) => ({
+    params: { slug: digest.id.replace(/\.md$/, '') },
+    props: { digest },
+  }));
+}
+
+const { digest } = Astro.props;
+const { Content } = await render(digest);
+
+const formattedDate = digest.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={digest.data.title} description={digest.data.description}>
+  <article class="digest">
+    <div class="container">
+      <header class="digest-header">
+        <a href="/digests" class="back-link">← Back to Weekly Digests</a>
+
+        <div class="digest-meta">
+          <span class="digest-week">Week {digest.data.weekNumber}</span>
+          <span class="digest-year">{digest.data.year}</span>
+        </div>
+
+        <h1>{digest.data.title}</h1>
+        <p class="digest-description">{digest.data.description}</p>
+
+        <time class="digest-date" datetime={digest.data.pubDate.toISOString()}>
+          {formattedDate}
+        </time>
+      </header>
+
+      {digest.data.highlights.length > 0 && (
+        <div class="highlights-box">
+          <h2 class="highlights-title">Key Highlights</h2>
+          <ul class="highlights-list">
+            {digest.data.highlights.map((highlight: string) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <footer class="digest-footer">
+        <a href="/digests" class="back-link">← Back to Weekly Digests</a>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .digest {
+    padding: 2rem 0 4rem;
+  }
+
+  .digest .container {
+    max-width: 800px;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent-cyan);
+  }
+
+  .digest-meta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .digest-week {
+    padding: 0.3rem 0.75rem;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-accent-cyan);
+  }
+
+  .digest-year {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .digest-header h1 {
+    font-size: 2.25rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .digest-description {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .digest-date {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .highlights-box {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .highlights-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-accent-cyan);
+    margin-bottom: 1rem;
+  }
+
+  .highlights-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .highlights-list li {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .highlights-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-cyan);
+    font-weight: bold;
+  }
+
+  .digest-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 768px) {
+    .digest-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .digest-description {
+      font-size: 1rem;
+    }
+  }
+</style>

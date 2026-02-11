@@ -155,9 +155,169 @@ pre code {
 .severity-medium { color: #eab308; }
 .severity-low { color: var(--color-accent-green); }
 
+/* Prose styles for markdown content */
+.prose {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+.prose h1 {
+  font-size: 2rem;
+  color: var(--color-text-primary);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose h4 {
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+.prose a {
+  color: var(--color-accent-cyan);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: var(--color-accent-blue);
+}
+
+.prose strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose ul {
+  list-style: none;
+}
+
+.prose ul li {
+  position: relative;
+  padding-left: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.prose ul li::before {
+  content: '▸';
+  position: absolute;
+  left: -0.75rem;
+  color: var(--color-accent-cyan);
+  font-weight: bold;
+}
+
+.prose ol li {
+  margin-bottom: 0.35rem;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-accent-cyan);
+  background: var(--color-bg-secondary);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.prose blockquote p {
+  margin-bottom: 0;
+}
+
+.prose code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  background: var(--color-bg-tertiary);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--color-accent-cyan);
+}
+
+.prose pre {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9em;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.prose th {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+}
+
+.prose td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  margin: 1.5rem 0;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
+}
+
 /* Responsive breakpoints */
 @media (max-width: 768px) {
   .container {
     padding: 0 1rem;
+  }
+
+  .prose {
+    font-size: 1rem;
   }
 }

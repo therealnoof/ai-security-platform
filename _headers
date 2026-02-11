@@ -4,5 +4,8 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
+/admin/*
+  X-Frame-Options: SAMEORIGIN
+
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
