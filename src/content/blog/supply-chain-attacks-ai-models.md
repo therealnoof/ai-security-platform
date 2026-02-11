@@ -14,7 +14,7 @@ The software supply chain has been a high-profile attack vector for years — So
 
 Traditional software supply chains involve source code, build systems, and package registries. The AI supply chain adds several new links:
 
-- **Pre-trained model weights** — Downloaded from Hugging Face, PyTorch Hub, or internal registries.
+- **Pre-trained model weights** — Downloaded from [Hugging Face](https://huggingface.co/), PyTorch Hub, or internal registries.
 - **Training datasets** — Scraped from the web, purchased from vendors, or assembled from open sources.
 - **Fine-tuning pipelines** — Including adapter weights (LoRA, QLoRA) shared across teams.
 - **Model conversion tools** — ONNX exporters, quantization scripts, and format converters.
@@ -71,18 +71,28 @@ The concept of a Software Bill of Materials (SBOM) — a structured inventory of
 
 ### Emerging Standards
 
-- **CycloneDX ML** — An extension of the CycloneDX SBOM standard that adds ML-specific fields for model type, training data, and performance metrics.
-- **Model Cards++** — Enhanced model documentation that goes beyond the original Model Cards proposal to include cryptographic hashes, signed provenance attestations, and supply chain metadata.
-- **SLSA for ML** — Applying the Supply-chain Levels for Software Artifacts framework to ML pipelines, with requirements for build integrity, provenance, and hermetic builds.
+- **[CycloneDX ML-BOM](https://cyclonedx.org/capabilities/mlbom/)** — An extension of the CycloneDX SBOM standard that adds ML-specific fields for model type, training data, and performance metrics.
+- **[Model Cards](https://huggingface.co/docs/hub/en/model-cards)++** — Enhanced model documentation that goes beyond the original Model Cards proposal to include cryptographic hashes, signed provenance attestations, and supply chain metadata.
+- **[SLSA](https://slsa.dev/) for ML** — Applying the Supply-chain Levels for Software Artifacts framework to ML pipelines, with requirements for build integrity, provenance, and hermetic builds.
 
 ## Practical Recommendations
 
-1. **Never use `pickle` for model distribution.** Prefer SafeTensors or other formats that don't allow arbitrary code execution.
+1. **Never use `pickle` for model distribution.** Prefer [SafeTensors](https://github.com/huggingface/safetensors) or other formats that don't allow arbitrary code execution.
 2. **Verify model hashes.** Always compare downloaded model files against published checksums. Pin specific model versions rather than pulling "latest."
-3. **Scan model files.** Tools like `fickling` can analyze pickle files for suspicious code. Use them in CI/CD before any model is loaded.
+3. **Scan model files.** Tools like [`fickling`](https://github.com/trailofbits/fickling) can analyze pickle files for suspicious code. Use them in CI/CD before any model is loaded.
 4. **Audit training data.** Implement data validation pipelines that check for statistical anomalies, duplicate injection, and trigger patterns.
 5. **Generate ML SBOMs.** Document every model's lineage, dependencies, and evaluation results. Make SBOMs a required artifact in your model registry.
 6. **Isolate model loading.** Run `torch.load()` and similar operations in sandboxed environments with no network access and restricted filesystem permissions.
 7. **Monitor model behavior in production.** Track output distributions and flag sudden changes that could indicate a triggered backdoor.
 
 The AI supply chain is the next frontier for security teams. Organizations that invest in model provenance, dependency hygiene, and behavioral monitoring now will be far better positioned as these attacks inevitably scale.
+
+## Further Reading
+
+- [SafeTensors](https://github.com/huggingface/safetensors) — Safe, zero-copy model serialization format by Hugging Face
+- [fickling](https://github.com/trailofbits/fickling) — Trail of Bits' pickle file static analysis and decompilation tool
+- [ModelScan](https://github.com/protectai/modelscan) — Scans model files for malicious code across pickle, SafeTensors, GGUF, and ONNX formats
+- [CycloneDX ML-BOM](https://cyclonedx.org/capabilities/mlbom/) — ML-specific extension of the CycloneDX SBOM standard
+- [SLSA Framework](https://slsa.dev/) — Supply-chain integrity framework applicable to ML pipelines
+- [Hugging Face Model Cards](https://huggingface.co/docs/hub/en/model-cards) — Documentation standard for model provenance and metadata
+- [MITRE ATLAS](https://atlas.mitre.org/) — AI attack technique catalog including supply chain vectors

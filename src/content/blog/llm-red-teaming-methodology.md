@@ -36,7 +36,7 @@ Before testing, define what you're protecting and from whom:
 
 Use automated tools to quickly identify low-hanging vulnerabilities across broad categories.
 
-**Garak** (Generative AI Red-teaming and Assessment Kit) is an open-source LLM vulnerability scanner that ships with dozens of probe modules:
+**[Garak](https://github.com/NVIDIA/garak)** (Generative AI Red-teaming and Assessment Kit) is an open-source LLM vulnerability scanner that ships with dozens of probe modules:
 
 ```bash
 # Scan for prompt injection vulnerabilities
@@ -48,7 +48,7 @@ garak --model_type openai --model_name gpt-4
 
 Garak tests for injection, data leakage, toxicity, hallucination, and more. It generates structured reports that map findings to vulnerability taxonomies.
 
-**PyRIT** (Python Risk Identification Toolkit), developed by Microsoft, focuses on multi-turn attack orchestration:
+**[PyRIT](https://github.com/Azure/PyRIT)** (Python Risk Identification Toolkit), developed by Microsoft, focuses on multi-turn attack orchestration:
 
 ```python
 from pyrit.orchestrator import RedTeamingOrchestrator
@@ -101,3 +101,12 @@ One-off assessments provide a snapshot, but LLM behavior changes with model upda
 ## Key Takeaways
 
 LLM red teaming is a discipline, not a one-time task. Combine automated scanning for breadth, expert manual testing for depth, and continuous regression testing for durability. The threat landscape evolves with every model release — your testing practice must evolve with it.
+
+## Further Reading
+
+- [Garak on GitHub](https://github.com/NVIDIA/garak) — Open-source LLM vulnerability scanner with dozens of probe modules
+- [PyRIT on GitHub](https://github.com/Azure/PyRIT) — Microsoft's multi-turn red teaming orchestration toolkit
+- [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) — Risk taxonomy useful for structuring red team scope
+- [MITRE ATLAS](https://atlas.mitre.org/) — Attack technique catalog for mapping red team findings
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) — Includes guidelines for adversarial testing and evaluation
+- [NIST AI 600-1 (Generative AI Profile)](https://airc.nist.gov/Docs/1) — Companion guidance specific to generative AI risks

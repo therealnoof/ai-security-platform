@@ -14,7 +14,7 @@ Prompt injection has emerged as the most widespread and stubbornly persistent vu
 
 At its core, prompt injection exploits the fact that LLMs cannot fundamentally distinguish between *instructions* (the developer's system prompt) and *data* (user-supplied or externally retrieved content). An attacker crafts input that causes the model to override its intended behavior, leak its system prompt, exfiltrate data, or perform unauthorized actions.
 
-The vulnerability is analogous to SQL injection in traditional web applications: untrusted input is mixed with trusted commands in the same channel, and the interpreter cannot tell them apart.
+The vulnerability is analogous to SQL injection in traditional web applications: untrusted input is mixed with trusted commands in the same channel, and the interpreter cannot tell them apart. The [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) ranks prompt injection as the #1 risk — and for good reason.
 
 ## Taxonomy of Prompt Injection Attacks
 
@@ -68,7 +68,7 @@ Agentic LLM applications that can call tools — send emails, execute code, quer
 
 ### Plugin and MCP Ecosystem Risks
 
-The growing ecosystem of model plugins and MCP (Model Context Protocol) servers introduces supply-chain risks. A malicious or compromised plugin can inject instructions into the model's context that persist across sessions, enabling long-term surveillance or data siphoning.
+The growing ecosystem of model plugins and MCP (Model Context Protocol) servers introduces supply-chain risks. The [MITRE ATLAS](https://atlas.mitre.org/) framework catalogs these and other AI attack techniques. A malicious or compromised plugin can inject instructions into the model's context that persist across sessions, enabling long-term surveillance or data siphoning.
 
 ## Defense Strategies
 
@@ -84,7 +84,7 @@ No single technique eliminates prompt injection. Effective defense requires laye
 ### Architectural Separation
 
 - **Dual-LLM pattern**: Use a privileged LLM to plan actions and a quarantined LLM to process untrusted content. The quarantined model has no access to tools or sensitive data.
-- **Input/output firewalls**: Route all LLM inputs and outputs through a classifier trained to detect injection attempts.
+- **Input/output firewalls**: Route all LLM inputs and outputs through a classifier trained to detect injection attempts. Open-source tools like [LLM Guard](https://github.com/protectai/llm-guard) provide this capability with low latency.
 - **Least-privilege tool access**: Tools should require explicit, scoped authorization tokens — never inherit the model's ambient permissions.
 
 ### Output Validation and Guardrails
@@ -108,3 +108,11 @@ The research community continues to explore fundamental solutions — from train
 - **Context isolation** — Hardware or architectural separation of instruction and data channels, analogous to the Harvard architecture in CPUs.
 
 Until these approaches mature, defense-in-depth remains the only responsible strategy. Assume injection will be attempted, design for containment, and monitor continuously.
+
+## Further Reading
+
+- [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) — The definitive risk ranking for LLM deployments
+- [MITRE ATLAS](https://atlas.mitre.org/) — Adversarial threat landscape and attack technique catalog for AI systems
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) — Federal guidelines for managing AI risk, including adversarial robustness
+- [LLM Guard](https://github.com/protectai/llm-guard) — Open-source input/output firewall for LLM applications
+- [Garak](https://github.com/NVIDIA/garak) — LLM vulnerability scanner with prompt injection probe modules
