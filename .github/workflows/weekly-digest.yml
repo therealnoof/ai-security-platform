@@ -37,7 +37,8 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet && git diff --cached --quiet && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
+          git add src/content/digests/ agent-logs/
+          git diff --cached --quiet && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true'
