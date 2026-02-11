@@ -270,8 +270,6 @@ def validate_frontmatter(digest_text: str, meta: dict) -> list[str]:
         for i, h in enumerate(highlights):
             if not isinstance(h, str):
                 errors.append(f"Highlight {i} is not a string")
-            elif len(h) > 100:
-                errors.append(f"Highlight {i} exceeds 100 chars ({len(h)})")
 
     # Check draft is false
     if fm.get("draft") is not False:
