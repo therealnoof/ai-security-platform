@@ -1,0 +1,25 @@
+{
+  "status": "success",
+  "started_at": "2026-02-11T15:00:53.969286+00:00",
+  "model": "claude-sonnet-4-5-20250929",
+  "usage": {
+    "research": {
+      "input_tokens": 120626,
+      "output_tokens": 7884
+    },
+    "review": {
+      "input_tokens": 6773,
+      "output_tokens": 6383
+    }
+  },
+  "week_metadata": {
+    "week_number": 6,
+    "year": 2026,
+    "pub_date": "2026-02-11",
+    "date_range": "February 02 \u2013 February 08, 2026",
+    "filename": "2026-week-06.md"
+  },
+  "review_verdict": "UNEXPECTED",
+  "image": "/images/digests/abstract-circuit-purple.svg",
+  "elapsed_seconds": 408.3
+}
