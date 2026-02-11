@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 import traceback
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import anthropic
@@ -30,7 +30,7 @@ IMAGES_DIR = REPO_ROOT / "public" / "images" / "digests"
 REQUIRED_FRONTMATTER_FIELDS = {
     "title": str,
     "description": str,
-    "pubDate": (str, datetime),
+    "pubDate": (str, date, datetime),
     "weekNumber": int,
     "year": int,
     "highlights": list,
