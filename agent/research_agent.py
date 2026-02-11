@@ -18,7 +18,8 @@ import yaml
 MODEL = "claude-sonnet-4-5-20250929"
 MAX_TOKENS = 8192
 MAX_RETRIES = 3
-BACKOFF_SECONDS = [10, 20, 40]
+BACKOFF_SECONDS = [60, 120, 240]
+TURN_DELAY = 30  # seconds between continuation calls to stay under rate limits
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DIGESTS_DIR = REPO_ROOT / "src" / "content" / "digests"
@@ -111,6 +112,8 @@ def run_research_pass(client: anthropic.Anthropic, system_prompt: str) -> tuple[
             # Append the assistant's response and continue
             messages.append({"role": "assistant", "content": response.content})
             messages.append({"role": "user", "content": [{"type": "text", "text": "Continue."}]})
+            print(f"    … pausing {TURN_DELAY}s between turns (rate limit headroom)")
+            time.sleep(TURN_DELAY)
             continue
 
         # Extract text from the final response
@@ -443,8 +446,10 @@ def main():
         if errors:
             print(f"  ⚠ Validation errors (pre-review): {errors}")
 
-        # Review pass
-        print("\n  ▶ Review pass...")
+        # Review pass (pause first to avoid rate limits after research)
+        print(f"\n  ▶ Pausing {TURN_DELAY}s before review pass...")
+        time.sleep(TURN_DELAY)
+        print("  ▶ Review pass...")
         verdict, digest_text, review_usage = run_review_pass(client, digest_text)
         log["usage"]["review"] = review_usage
         log["review_verdict"] = verdict
