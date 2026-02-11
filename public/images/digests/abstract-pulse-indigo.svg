@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="pi-bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0e0e20"/>
+      <stop offset="100%" stop-color="#0a0e1a"/>
+    </radialGradient>
+    <radialGradient id="pi-glow" cx="50%" cy="50%" r="30%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#pi-bg)"/>
+  <rect width="1200" height="630" fill="url(#pi-glow)"/>
+  <!-- Concentric rings expanding from center -->
+  <g fill="none" stroke="#6366f1" cx="600" cy="315">
+    <circle cx="600" cy="315" r="30" stroke-width="2" opacity="0.5"/>
+    <circle cx="600" cy="315" r="60" stroke-width="1.8" opacity="0.4"/>
+    <circle cx="600" cy="315" r="95" stroke-width="1.6" opacity="0.33"/>
+    <circle cx="600" cy="315" r="135" stroke-width="1.4" opacity="0.27"/>
+    <circle cx="600" cy="315" r="180" stroke-width="1.2" opacity="0.22"/>
+    <circle cx="600" cy="315" r="230" stroke-width="1" opacity="0.17"/>
+    <circle cx="600" cy="315" r="285" stroke-width="0.8" opacity="0.13"/>
+    <circle cx="600" cy="315" r="345" stroke-width="0.7" opacity="0.1"/>
+    <circle cx="600" cy="315" r="410" stroke-width="0.6" opacity="0.07"/>
+    <circle cx="600" cy="315" r="480" stroke-width="0.5" opacity="0.05"/>
+  </g>
+  <!-- Partial arc highlights to break symmetry -->
+  <g fill="none" stroke="#6366f1" stroke-linecap="round">
+    <path d="M600,285 A30,30 0 0,1 626,300" stroke-width="3" opacity="0.7"/>
+    <path d="M540,315 A60,60 0 0,1 600,255" stroke-width="2.5" opacity="0.5"/>
+    <path d="M695,315 A95,95 0 0,1 600,220" stroke-width="2" opacity="0.4"/>
+    <path d="M465,315 A135,135 0 0,0 540,195" stroke-width="1.8" opacity="0.3"/>
+    <path d="M780,315 A180,180 0 0,1 690,160" stroke-width="1.5" opacity="0.25"/>
+    <path d="M370,315 A230,230 0 0,0 450,130" stroke-width="1.2" opacity="0.2"/>
+  </g>
+  <!-- Radial lines from center -->
+  <g stroke="#6366f1" opacity="0.1" stroke-width="0.5">
+    <line x1="600" y1="315" x2="600" y2="0"/>
+    <line x1="600" y1="315" x2="1100" y2="30"/>
+    <line x1="600" y1="315" x2="1200" y2="315"/>
+    <line x1="600" y1="315" x2="1100" y2="600"/>
+    <line x1="600" y1="315" x2="600" y2="630"/>
+    <line x1="600" y1="315" x2="100" y2="600"/>
+    <line x1="600" y1="315" x2="0" y2="315"/>
+    <line x1="600" y1="315" x2="100" y2="30"/>
+  </g>
+  <!-- Central core -->
+  <circle cx="600" cy="315" r="8" fill="#6366f1" opacity="0.6"/>
+  <circle cx="600" cy="315" r="4" fill="#fff" opacity="0.8"/>
+  <!-- Dots on rings -->
+  <g fill="#6366f1" opacity="0.5">
+    <circle cx="660" cy="315" r="2.5"/>
+    <circle cx="540" cy="315" r="2"/>
+    <circle cx="600" cy="220" r="2.5"/>
+    <circle cx="600" cy="410" r="2"/>
+    <circle cx="695" cy="220" r="2"/>
+    <circle cx="505" cy="410" r="2"/>
+    <circle cx="420" cy="315" r="1.8"/>
+    <circle cx="780" cy="315" r="1.8"/>
+    <circle cx="375" cy="200" r="1.5"/>
+    <circle cx="830" cy="430" r="1.5"/>
+  </g>
+</svg>

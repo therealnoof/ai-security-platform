@@ -53,6 +53,7 @@ draft: false
 - `year` is an integer (no quotes)
 - `highlights` is an array of 3-5 strings, each under 100 characters
 - `draft` must be `false`
+- Do NOT include an `image` field — the system adds this automatically
 
 ---
 

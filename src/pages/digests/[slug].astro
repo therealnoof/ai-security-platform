@@ -22,6 +22,11 @@ const formattedDate = digest.data.pubDate.toLocaleDateString('en-US', {
 
 <BaseLayout title={digest.data.title} description={digest.data.description}>
   <article class="digest">
+    {digest.data.image && (
+      <div class="digest-hero">
+        <img src={digest.data.image} alt="" role="presentation" width="1200" height="630" />
+      </div>
+    )}
     <div class="container">
       <header class="digest-header">
         <a href="/digests" class="back-link">← Back to Last Week in AI</a>
@@ -62,6 +67,20 @@ const formattedDate = digest.data.pubDate.toLocaleDateString('en-US', {
 </BaseLayout>
 
 <style>
+  .digest-hero {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .digest-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
   .digest {
     padding: 2rem 0 4rem;
   }

@@ -24,6 +24,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DIGESTS_DIR = REPO_ROOT / "src" / "content" / "digests"
 LOGS_DIR = REPO_ROOT / "agent-logs"
 PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
+IMAGES_DIR = REPO_ROOT / "public" / "images" / "digests"
 
 REQUIRED_FRONTMATTER_FIELDS = {
     "title": str,
@@ -237,6 +238,78 @@ def validate_frontmatter(digest_text: str, meta: dict) -> list[str]:
     return errors
 
 
+# ── Image Selection ──────────────────────────────────────────────────────────
+
+
+def select_image() -> str | None:
+    """Pick the least-recently-used header image. Returns a site-relative path or None."""
+    available = sorted(
+        p.name
+        for p in IMAGES_DIR.iterdir()
+        if p.suffix in (".svg", ".png", ".jpg", ".webp") and p.name != ".gitkeep"
+    )
+    if not available:
+        return None
+
+    # Check which images existing digests already use
+    used_images: list[str] = []
+    for digest_file in sorted(DIGESTS_DIR.glob("*.md"), reverse=True):
+        text = digest_file.read_text()
+        if not text.startswith("---"):
+            continue
+        parts = text.split("---", 2)
+        if len(parts) < 3:
+            continue
+        try:
+            fm = yaml.safe_load(parts[1])
+        except yaml.YAMLError:
+            continue
+        if isinstance(fm, dict) and fm.get("image"):
+            # Extract filename from path like /images/digests/foo.svg
+            img_name = fm["image"].split("/")[-1]
+            used_images.append(img_name)
+
+    # Find images not yet used; if all used, pick the least-recently-used
+    unused = [img for img in available if img not in used_images]
+    if unused:
+        chosen = unused[0]
+    else:
+        # All images used — pick the one whose most recent use is oldest
+        # used_images is newest-first, so the last occurrence = oldest use
+        oldest_use = None
+        for img in available:
+            if img in used_images:
+                idx = len(used_images) - 1 - used_images[::-1].index(img)
+                if oldest_use is None or idx > oldest_use[1]:
+                    oldest_use = (img, idx)
+            else:
+                chosen = img
+                break
+        else:
+            chosen = oldest_use[0] if oldest_use else available[0]
+
+    return f"/images/digests/{chosen}"
+
+
+def inject_image_frontmatter(digest_text: str, image_path: str) -> str:
+    """Insert an image field into the YAML frontmatter of a digest."""
+    if not digest_text.startswith("---"):
+        return digest_text
+
+    parts = digest_text.split("---", 2)
+    if len(parts) < 3:
+        return digest_text
+
+    # Insert image before the draft field (or at end of frontmatter)
+    fm_text = parts[1]
+    if "\ndraft:" in fm_text:
+        fm_text = fm_text.replace("\ndraft:", f"\nimage: {image_path}\ndraft:")
+    else:
+        fm_text = fm_text.rstrip() + f"\nimage: {image_path}\n"
+
+    return f"---{fm_text}---{parts[2]}"
+
+
 # ── File I/O ─────────────────────────────────────────────────────────────────
 
 
@@ -393,6 +466,16 @@ def main():
                 f"**Date range:** {meta['date_range']}",
             )
             sys.exit(1)
+
+        # Select and inject header image
+        print("\n  ▶ Selecting header image...")
+        image_path = select_image()
+        if image_path:
+            digest_text = inject_image_frontmatter(digest_text, image_path)
+            log["image"] = image_path
+            print(f"  ✓ Selected image: {image_path}")
+        else:
+            print("  ⚠ No images available in public/images/digests/")
 
         # Save digest
         print("\n  ▶ Saving digest...")

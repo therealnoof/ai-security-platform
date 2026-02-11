@@ -28,6 +28,11 @@ const sortedDigests = digests.sort((a, b) =>
         <div class="digests-grid">
           {sortedDigests.map(digest => (
             <a href={`/digests/${digest.id.replace(/\.md$/, '')}`} class="digest-card card">
+              {digest.data.image && (
+                <div class="digest-card-image">
+                  <img src={digest.data.image} alt="" role="presentation" width="600" height="315" />
+                </div>
+              )}
               <div class="digest-meta">
                 <span class="digest-week">Week {digest.data.weekNumber}</span>
                 <span class="digest-year">{digest.data.year}</span>
@@ -83,6 +88,19 @@ const sortedDigests = digests.sort((a, b) =>
     display: block;
     text-decoration: none;
     color: inherit;
+  }
+
+  .digest-card-image {
+    margin: -1.5rem -1.5rem 1rem;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .digest-card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .digest-card:hover h3 {

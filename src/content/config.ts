@@ -27,6 +27,7 @@ const digestsCollection = defineCollection({
     year: z.number(),
     highlights: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    image: z.string().optional(),
   }),
 });
 
