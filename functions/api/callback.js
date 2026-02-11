@@ -45,15 +45,18 @@ export async function onRequestGet(context) {
 <body>
 <script>
 (function() {
-  function sendMessage(message) {
-    var target = window.opener || window.parent;
-    target.postMessage(
-      'authorization:github:success:' + JSON.stringify(message),
-      document.location.origin
+  var token = ${content};
+  var opener = window.opener;
+
+  function sendMessage(e) {
+    opener.postMessage(
+      'authorization:github:success:' + JSON.stringify(token),
+      e.origin
     );
   }
-  sendMessage(${content});
-  window.close();
+
+  window.addEventListener('message', sendMessage, false);
+  opener.postMessage('authorizing:github', '*');
 })();
 </script>
 </body>
