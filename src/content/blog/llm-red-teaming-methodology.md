@@ -12,7 +12,7 @@ tags:
   - tools
 featured: false
 draft: false
-image: /images/uploads/redteam.jpg
+image: /images/redteam.jpg
 ---
 
 Red teaming LLMs is no longer optional. As organizations deploy models into customer-facing products, internal tools, and autonomous agents, structured adversarial testing is essential to uncover failures before attackers do. This article presents a practical methodology you can adopt today.
