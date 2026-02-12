@@ -33,7 +33,7 @@ collections:
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Publication Date", name: "pubDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
       - { label: "Updated Date", name: "updatedDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false }
-      - { label: "Author", name: "author", widget: "string", default: "Neural Threats" }
+      - { label: "Author", name: "author", widget: "relation", collection: "authors", search_fields: ["name"], value_field: "{{slug}}", display_fields: ["name"], default: "neural-threats" }
       - { label: "Tags", name: "tags", widget: "list", default: [] }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
@@ -56,6 +56,18 @@ collections:
       - { label: "Highlights", name: "highlights", widget: "list", default: [] }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: authors
+    label: "Authors"
+    folder: src/content/authors
+    create: true
+    slug: "{{slug}}"
+    extension: json
+    format: json
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Avatar", name: "avatar", widget: "image" }
+      - { label: "Bio", name: "bio", widget: "text" }
 
   - name: pages
     label: "Pages"
