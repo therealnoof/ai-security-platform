@@ -1,11 +1,18 @@
 ---
 title: "LLM Red Teaming: A Practical Methodology for Adversarial Testing"
-description: "A structured framework for red teaming large language models, covering tools like Garak and PyRIT, testing taxonomies, and actionable reporting templates."
+description: A structured framework for red teaming large language models,
+  covering tools like Garak and PyRIT, testing taxonomies, and actionable
+  reporting templates.
 pubDate: 2026-01-27
-author: "neural-threats"
-tags: ["red teaming", "adversarial testing", "LLM security", "tools"]
+author: neural-threats
+tags:
+  - red teaming
+  - adversarial testing
+  - LLM security
+  - tools
 featured: false
 draft: false
+image: /images/uploads/redteam.jpg
 ---
 
 Red teaming LLMs is no longer optional. As organizations deploy models into customer-facing products, internal tools, and autonomous agents, structured adversarial testing is essential to uncover failures before attackers do. This article presents a practical methodology you can adopt today.
