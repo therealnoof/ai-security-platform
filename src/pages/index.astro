@@ -6,22 +6,58 @@ const features = [
   {
     icon: '🔬',
     title: 'Deep Research',
-    description: 'In-depth analysis of AI security vulnerabilities, attack vectors, and defense strategies.'
+    description: 'In-depth analysis of AI security vulnerabilities, attack vectors, and defense strategies.',
+    href: '/research',
   },
   {
-    icon: '📊',
+    icon: `<svg viewBox="0 0 48 64" width="36" height="48" xmlns="http://www.w3.org/2000/svg">
+      <!-- lamp glow -->
+      <circle cx="24" cy="4" r="4" fill="#22d3ee" opacity="0.3"/>
+      <circle cx="24" cy="4" r="2" fill="#22d3ee" opacity="0.7"/>
+      <!-- lamp -->
+      <rect x="22" y="2" width="4" height="4" rx="1" fill="#e0e7ef" stroke="#1e3a5f" stroke-width="0.5"/>
+      <!-- top cap -->
+      <rect x="13" y="6" width="22" height="3" rx="0.5" fill="#1a3a6a" stroke="#0f2647" stroke-width="0.7"/>
+      <!-- sign bar -->
+      <rect x="14" y="9" width="20" height="4" fill="#1e4d8c" stroke="#0f2647" stroke-width="0.5"/>
+      <text x="24" y="12.2" text-anchor="middle" font-size="3" font-weight="bold" fill="#e0e7ef" font-family="sans-serif">POLICE BOX</text>
+      <!-- main body -->
+      <rect x="15" y="13" width="18" height="38" fill="#1e4d8c" stroke="#0f2647" stroke-width="0.7"/>
+      <!-- left panel -->
+      <rect x="16.5" y="15" width="6.5" height="16" rx="0.3" fill="#2563eb" stroke="#1e3a5f" stroke-width="0.5"/>
+      <!-- right panel -->
+      <rect x="25" y="15" width="6.5" height="16" rx="0.3" fill="#2563eb" stroke="#1e3a5f" stroke-width="0.5"/>
+      <!-- left panel windows -->
+      <rect x="17.5" y="16" width="2" height="5" rx="0.3" fill="#93c5fd" stroke="#1e3a5f" stroke-width="0.3"/>
+      <rect x="20" y="16" width="2" height="5" rx="0.3" fill="#93c5fd" stroke="#1e3a5f" stroke-width="0.3"/>
+      <!-- right panel windows -->
+      <rect x="26" y="16" width="2" height="5" rx="0.3" fill="#93c5fd" stroke="#1e3a5f" stroke-width="0.3"/>
+      <rect x="28.5" y="16" width="2" height="5" rx="0.3" fill="#93c5fd" stroke="#1e3a5f" stroke-width="0.3"/>
+      <!-- lower left panel -->
+      <rect x="16.5" y="33" width="6.5" height="16" rx="0.3" fill="#2563eb" stroke="#1e3a5f" stroke-width="0.5"/>
+      <!-- lower right panel -->
+      <rect x="25" y="33" width="6.5" height="16" rx="0.3" fill="#2563eb" stroke="#1e3a5f" stroke-width="0.5"/>
+      <!-- door handle -->
+      <rect x="23.2" y="38" width="1.6" height="1" rx="0.3" fill="#e0e7ef"/>
+      <!-- center line -->
+      <line x1="24" y1="15" x2="24" y2="51" stroke="#0f2647" stroke-width="0.5"/>
+      <!-- base -->
+      <rect x="13" y="51" width="22" height="3" rx="0.5" fill="#0f2647" stroke="#0a1c36" stroke-width="0.7"/>
+    </svg>`,
     title: 'Last Week in AI',
-    description: 'Curated summaries of the most important AI security developments each week.'
+    description: 'Curated summaries of the most important AI security developments each week.',
+    href: '/digests',
   },
   {
-    icon: '🤖',
-    title: 'AI-Assisted',
-    description: 'Research enhanced by Claude AI to surface insights and connections you might miss.'
+    icon: '🧠',
+    title: 'Work from the Humans',
+    description: 'Expert-written articles and analysis from around the AI security world — no bots, just brains.',
+    href: '/blog',
   },
   {
     icon: '🛡️',
     title: 'Practical Defense',
-    description: 'Actionable guidance for securing AI systems in production environments.'
+    description: 'Actionable guidance for securing AI systems in production environments.',
   }
 ];
 
@@ -68,9 +104,15 @@ const topics = [
   <section class="features">
     <div class="container">
       <div class="features-grid">
-        {features.map(feature => (
+        {features.map(feature => feature.href ? (
+          <a href={feature.href} class="feature-card card">
+            <span class="feature-icon" set:html={feature.icon} />
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </a>
+        ) : (
           <div class="feature-card card">
-            <span class="feature-icon">{feature.icon}</span>
+            <span class="feature-icon" set:html={feature.icon} />
             <h3>{feature.title}</h3>
             <p>{feature.description}</p>
           </div>
@@ -185,12 +227,30 @@ const topics = [
 
   .feature-card {
     text-align: center;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  a.feature-card {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a.feature-card:hover {
+    border-color: rgba(34, 211, 238, 0.4);
+    transform: translateY(-2px);
   }
 
   .feature-icon {
     font-size: 2.5rem;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 1rem;
+    min-height: 48px;
+  }
+
+  .feature-icon :global(svg) {
+    display: block;
   }
 
   .feature-card h3 {
