@@ -1,4 +1,6 @@
 ---
+import Search from './Search.astro';
+
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
@@ -49,6 +51,8 @@ const navLinks = [
         <span class="brand-text">Neural <span class="brand-accent">Threats</span></span>
       </a>
 
+      <Search />
+
       <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
         <span class="hamburger"></span>
       </button>
@@ -83,6 +87,7 @@ const navLinks = [
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.5rem;
     height: 64px;
   }
 
@@ -93,6 +98,7 @@ const navLinks = [
     font-weight: 600;
     font-size: 1.1rem;
     color: var(--color-text-primary);
+    flex-shrink: 0;
   }
 
   .nav-brand:hover {
@@ -126,6 +132,7 @@ const navLinks = [
     align-items: center;
     gap: 0.5rem;
     list-style: none;
+    flex-shrink: 0;
   }
 
   .nav-link {
