@@ -2,7 +2,7 @@
 title: "Prompt Injection Attacks: A Comprehensive Guide to AI's Most Persistent Vulnerability"
 description: "An in-depth exploration of prompt injection taxonomy, real-world attack scenarios, and multi-layered defense strategies for securing LLM-powered applications."
 pubDate: 2026-02-03
-author: "Neural Threats"
+author: "neural-threats"
 tags: ["prompt injection", "LLM security", "adversarial attacks", "defense strategies"]
 featured: true
 draft: false

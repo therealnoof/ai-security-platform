@@ -2,7 +2,7 @@
 title: "LLM Red Teaming: A Practical Methodology for Adversarial Testing"
 description: "A structured framework for red teaming large language models, covering tools like Garak and PyRIT, testing taxonomies, and actionable reporting templates."
 pubDate: 2026-01-27
-author: "Neural Threats"
+author: "neural-threats"
 tags: ["red teaming", "adversarial testing", "LLM security", "tools"]
 featured: false
 draft: false

@@ -1,5 +1,15 @@
 import { defineCollection, z } from 'astro:content';
 
+// Authors data collection
+const authorsCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+    avatar: z.string(),
+    bio: z.string(),
+  }),
+});
+
 // Blog posts collection
 const blogCollection = defineCollection({
   type: 'content',
@@ -8,7 +18,7 @@ const blogCollection = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    author: z.string().default('Neural Threats'),
+    author: z.string().default('neural-threats'),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
@@ -42,6 +52,7 @@ const pagesCollection = defineCollection({
 });
 
 export const collections = {
+  authors: authorsCollection,
   blog: blogCollection,
   digests: digestsCollection,
   pages: pagesCollection,
