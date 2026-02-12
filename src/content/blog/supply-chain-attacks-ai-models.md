@@ -1,10 +1,16 @@
 ---
 title: "Supply Chain Attacks on AI Models: From Poisoned Datasets to Trojan Weights"
-description: "How attackers compromise the AI supply chain through model registries, dataset poisoning, and dependency manipulation — and what ML SBOMs can do about it."
+description: How attackers compromise the AI supply chain through model
+  registries, dataset poisoning, and dependency manipulation — and what ML SBOMs
+  can do about it.
 pubDate: 2026-01-20
-author: "neural-threats"
-tags: ["supply chain", "model security", "dataset poisoning", "ML SBOM"]
-featured: false
+author: neural-threats
+tags:
+  - supply chain
+  - model security
+  - dataset poisoning
+  - ML SBOM
+featured: true
 draft: false
 image: /images/supplychain.jpg
 ---
