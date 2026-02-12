@@ -1,11 +1,22 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Card from '../../components/Card.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 
 const posts = await getCollection('pages', ({ data }) => !data.draft);
 const sortedPosts = posts.sort((a, b) =>
   new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
+
+const postsWithAuthors = await Promise.all(
+  sortedPosts.map(async (post) => {
+    const authorEntry = post.data.author ? await getEntry('authors', post.data.author) : null;
+    return {
+      post,
+      authorName: authorEntry?.data.name,
+      authorAvatar: authorEntry?.data.avatar,
+    };
+  })
 );
 ---
 
@@ -22,7 +33,7 @@ const sortedPosts = posts.sort((a, b) =>
 
   <section class="posts-section">
     <div class="container">
-      {sortedPosts.length === 0 ? (
+      {postsWithAuthors.length === 0 ? (
         <div class="empty-state">
           <span class="empty-icon">📝</span>
           <h2>Coming Soon</h2>
@@ -30,7 +41,7 @@ const sortedPosts = posts.sort((a, b) =>
         </div>
       ) : (
         <div class="posts-grid">
-          {sortedPosts.map(post => (
+          {postsWithAuthors.map(({ post, authorName, authorAvatar }) => (
             <Card
               title={post.data.title}
               description={post.data.description}
@@ -38,6 +49,9 @@ const sortedPosts = posts.sort((a, b) =>
               date={post.data.pubDate.toISOString()}
               tags={post.data.tags}
               featured={post.data.featured}
+              image={post.data.image}
+              author={authorName}
+              authorAvatar={authorAvatar}
             />
           ))}
         </div>
@@ -96,8 +110,8 @@ const sortedPosts = posts.sort((a, b) =>
   }
 
   .posts-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
@@ -128,6 +142,10 @@ const sortedPosts = posts.sort((a, b) =>
 
     .page-header h1 {
       font-size: 2rem;
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

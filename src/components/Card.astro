@@ -6,54 +6,85 @@ interface Props {
   date?: string;
   tags?: string[];
   featured?: boolean;
+  image?: string;
+  author?: string;
+  authorAvatar?: string;
 }
 
-const { title, description, href, date, tags = [], featured = false } = Astro.props;
+const { title, description, href, date, tags = [], featured = false, image, author, authorAvatar } = Astro.props;
 
 const formattedDate = date ? new Date(date).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'short',
   day: 'numeric'
 }) : null;
+
+const TAG_COLORS = [
+  { bg: 'rgba(34, 211, 238, 0.1)', border: 'rgba(34, 211, 238, 0.3)', text: 'var(--color-accent-cyan)' },
+  { bg: 'rgba(167, 139, 250, 0.1)', border: 'rgba(167, 139, 250, 0.3)', text: 'var(--color-accent-purple)' },
+  { bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.3)', text: 'var(--color-accent-green)' },
+];
 ---
 
 <a href={href} class:list={['article-card', 'card', { featured }]}>
-  {featured && <span class="featured-badge">Featured</span>}
-
-  <div class="card-content">
-    <h3 class="card-title">{title}</h3>
-    <p class="card-desc">{description}</p>
-
-    <div class="card-meta">
-      {formattedDate && <span class="card-date">{formattedDate}</span>}
-      {tags.length > 0 && (
-        <div class="card-tags">
-          {tags.slice(0, 3).map(tag => (
-            <span class="tag">{tag}</span>
-          ))}
-        </div>
-      )}
-    </div>
+  <div class="card-image">
+    {image ? (
+      <img src={image} alt="" loading="lazy" />
+    ) : (
+      <div class="card-image-placeholder" />
+    )}
+    {featured && <span class="featured-badge">Featured</span>}
   </div>
 
-  <span class="card-arrow">→</span>
+  <div class="card-body">
+    {tags.length > 0 && (
+      <div class="card-tags">
+        {tags.slice(0, 3).map((tag, i) => (
+          <span
+            class="tag-pill"
+            style={`background: ${TAG_COLORS[i % TAG_COLORS.length].bg}; border-color: ${TAG_COLORS[i % TAG_COLORS.length].border}; color: ${TAG_COLORS[i % TAG_COLORS.length].text};`}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <h3 class="card-title">{title}</h3>
+    <p class="card-desc">{description}</p>
+  </div>
+
+  <div class="card-footer">
+    <div class="card-author">
+      {authorAvatar && (
+        <img src={authorAvatar} alt="" class="author-avatar" loading="lazy" />
+      )}
+      {author && <span class="author-name">{author}</span>}
+    </div>
+    {formattedDate && (author ? (
+      <span class="footer-separator">&middot;</span>
+    ) : null)}
+    {formattedDate && <span class="card-date">{formattedDate}</span>}
+  </div>
 </a>
 
 <style>
   .article-card {
     display: flex;
-    align-items: flex-start;
-    gap: 1rem;
+    flex-direction: column;
     text-decoration: none;
     color: inherit;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(34, 211, 238, 0.3);
   }
 
   .article-card:hover .card-title {
     color: var(--color-accent-cyan);
-  }
-
-  .article-card:hover .card-arrow {
-    transform: translateX(4px);
   }
 
   .featured {
@@ -61,10 +92,36 @@ const formattedDate = date ? new Date(date).toLocaleDateString('en-US', {
     background: linear-gradient(135deg, var(--color-bg-secondary), rgba(34, 211, 238, 0.05));
   }
 
+  /* Cover image */
+  .card-image {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin: -1px -1px 0 -1px;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .article-card:hover .card-image img {
+    transform: scale(1.03);
+  }
+
+  .card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
+  }
+
   .featured-badge {
     position: absolute;
-    top: -10px;
-    right: 1rem;
+    top: 0.75rem;
+    right: 0.75rem;
     padding: 0.25rem 0.75rem;
     background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
     color: var(--color-bg-primary);
@@ -75,8 +132,26 @@ const formattedDate = date ? new Date(date).toLocaleDateString('en-US', {
     letter-spacing: 0.05em;
   }
 
-  .card-content {
+  /* Body */
+  .card-body {
     flex: 1;
+    padding: 1.25rem 1.25rem 0;
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag-pill {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 500;
   }
 
   .card-title {
@@ -84,47 +159,54 @@ const formattedDate = date ? new Date(date).toLocaleDateString('en-US', {
     font-weight: 600;
     margin-bottom: 0.5rem;
     transition: color 0.2s ease;
+    line-height: 1.4;
   }
 
   .card-desc {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     color: var(--color-text-secondary);
     line-height: 1.6;
-    margin-bottom: 1rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .card-meta {
+  /* Footer */
+  .card-footer {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin-top: auto;
+  }
+
+  .card-author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .author-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .author-name {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .footer-separator {
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
   }
 
   .card-date {
     font-size: 0.8rem;
     color: var(--color-text-muted);
-  }
-
-  .card-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .card-arrow {
-    font-size: 1.25rem;
-    color: var(--color-text-muted);
-    transition: transform 0.2s ease;
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 768px) {
-    .card-arrow {
-      display: none;
-    }
   }
 </style>
