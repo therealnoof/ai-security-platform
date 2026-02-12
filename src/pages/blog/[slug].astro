@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuthorBio from '../../components/AuthorBio.astro';
 import { getCollection, render } from 'astro:content';
+import { getAuthor } from '../../data/authors';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -12,6 +14,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const author = getAuthor(post.data.author);
 
 const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -67,6 +70,10 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
       <div class="prose">
         <Content />
       </div>
+
+      {author && (
+        <AuthorBio name={author.name} avatar={author.avatar} bio={author.bio} />
+      )}
 
       <footer class="post-footer">
         <a href="/blog" class="back-link">← Back to Research</a>

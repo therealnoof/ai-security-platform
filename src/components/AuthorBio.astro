@@ -1,0 +1,79 @@
+---
+interface Props {
+  name: string;
+  avatar: string;
+  bio: string;
+}
+
+const { name, avatar, bio } = Astro.props;
+---
+
+<div class="author-bio">
+  <img src={avatar} alt={name} class="author-avatar" />
+  <div class="author-info">
+    <span class="author-label">Written by</span>
+    <span class="author-name">{name}</span>
+    <p class="author-description">{bio}</p>
+  </div>
+</div>
+
+<style>
+  .author-bio {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.25rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    margin-top: 3rem;
+  }
+
+  .author-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(34, 211, 238, 0.3);
+    flex-shrink: 0;
+  }
+
+  .author-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .author-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
+  .author-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-top: 0.1rem;
+  }
+
+  .author-description {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-top: 0.35rem;
+  }
+
+  @media (max-width: 768px) {
+    .author-bio {
+      padding: 1rem;
+    }
+
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+    }
+  }
+</style>
