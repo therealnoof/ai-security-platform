@@ -1,6 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/Card.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const featuredPosts = allPosts
+  .sort((a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf())
+  .slice(0, 3);
+
+const featuredWithAuthors = await Promise.all(
+  featuredPosts.map(async (post) => {
+    const authorEntry = post.data.author ? await getEntry('authors', post.data.author) : null;
+    return {
+      post,
+      authorName: authorEntry?.data.name,
+      authorAvatar: authorEntry?.data.avatar,
+    };
+  })
+);
 
 const features = [
   {
@@ -61,16 +78,6 @@ const features = [
   }
 ];
 
-const topics = [
-  'Prompt Injection',
-  'Model Security',
-  'Data Poisoning',
-  'Jailbreaking',
-  'AI Red Teaming',
-  'LLM Guardrails',
-  'Supply Chain',
-  'Privacy Attacks'
-];
 ---
 
 <BaseLayout title="Home">
@@ -121,15 +128,23 @@ const topics = [
     </div>
   </section>
 
-  <!-- Topics Section -->
-  <section class="topics">
+  <!-- Featured Articles -->
+  <section class="featured-section">
     <div class="container">
-      <h2>Topics We Cover</h2>
-      <div class="topics-grid">
-        {topics.map(topic => (
-          <a href={`/tags/${topic.toLowerCase().replace(/\s+/g, '-')}`} class="topic-tag">
-            {topic}
-          </a>
+      <h2>Featured Articles</h2>
+      <div class="featured-grid">
+        {featuredWithAuthors.map(({ post, authorName, authorAvatar }) => (
+          <Card
+            title={post.data.title}
+            description={post.data.description}
+            href={`/research/${post.id.replace(/\.md$/, '')}`}
+            date={post.data.pubDate.toISOString()}
+            tags={post.data.tags}
+            featured={post.data.featured}
+            image={post.data.image}
+            author={authorName}
+            authorAvatar={authorAvatar}
+          />
         ))}
       </div>
     </div>
@@ -264,40 +279,21 @@ const topics = [
     line-height: 1.6;
   }
 
-  /* Topics */
-  .topics {
+  /* Featured Articles */
+  .featured-section {
     padding: 4rem 0;
+  }
+
+  .featured-section h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
     text-align: center;
   }
 
-  .topics h2 {
-    font-size: 1.75rem;
-    margin-bottom: 2rem;
-  }
-
-  .topics-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .topic-tag {
-    padding: 0.5rem 1.25rem;
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 9999px;
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    transition: all 0.2s ease;
-  }
-
-  .topic-tag:hover {
-    border-color: var(--color-accent-cyan);
-    color: var(--color-accent-cyan);
-    background: rgba(34, 211, 238, 0.1);
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
   }
 
   /* CTA */
@@ -328,6 +324,10 @@ const topics = [
     .features-grid {
       grid-template-columns: repeat(2, 1fr);
     }
+
+    .featured-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (max-width: 768px) {
@@ -349,6 +349,10 @@ const topics = [
     }
 
     .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-grid {
       grid-template-columns: 1fr;
     }
 

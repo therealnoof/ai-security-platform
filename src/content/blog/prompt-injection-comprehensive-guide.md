@@ -6,6 +6,7 @@ author: "neural-threats"
 tags: ["prompt injection", "LLM security", "adversarial attacks", "defense strategies"]
 featured: true
 draft: false
+image: /images/promptinjection.jpg
 ---
 
 Prompt injection has emerged as the most widespread and stubbornly persistent vulnerability class in large language model (LLM) applications. Despite years of research and hardening efforts, no silver-bullet mitigation exists. Understanding the full taxonomy of these attacks — and layering multiple defenses — is critical for anyone deploying AI in production.

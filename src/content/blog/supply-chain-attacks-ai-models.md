@@ -6,6 +6,7 @@ author: "neural-threats"
 tags: ["supply chain", "model security", "dataset poisoning", "ML SBOM"]
 featured: false
 draft: false
+image: /images/supplychain.jpg
 ---
 
 The software supply chain has been a high-profile attack vector for years — SolarWinds, Log4Shell, and the xz backdoor demonstrated how a single compromised dependency can cascade across thousands of organizations. The AI ecosystem faces an analogous and in many ways more dangerous version of this problem.
