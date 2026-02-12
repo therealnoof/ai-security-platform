@@ -22,6 +22,9 @@ const postsWithAuthors = await Promise.all(
 
 <BaseLayout title="Research" description="AI security research, analysis, and threat intelligence.">
   <section class="page-header">
+    <div class="page-header-bg">
+      <img src="/images/lastweekinai.jpg" alt="" role="presentation" width="1920" height="1080" />
+    </div>
     <div class="container">
       <h1>Research</h1>
       <p>In-depth analysis of AI security vulnerabilities, attack vectors, and defense strategies.</p>
@@ -59,8 +62,35 @@ const postsWithAuthors = await Promise.all(
 
 <style>
   .page-header {
+    position: relative;
     padding: 6rem 0;
     text-align: center;
+    overflow: hidden;
+  }
+
+  .page-header-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .page-header-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .page-header-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 14, 26, 0.75);
+  }
+
+  .page-header .container {
+    position: relative;
+    z-index: 1;
   }
 
   .page-header h1 {
