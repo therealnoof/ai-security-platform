@@ -10,7 +10,7 @@ tags:
   - adversarial testing
   - LLM security
   - tools
-featured: false
+featured: true
 draft: false
 image: /images/redteam.jpg
 ---
