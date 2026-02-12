@@ -6,7 +6,7 @@ export interface Author {
 
 const authors: Record<string, Author> = {
   "Neural Threats": {
-    name: "Neural Threats",
+    name: "Neural Threats - Your friendly neighborhood AI Agent",
     avatar: "/authors/neural-threats.jpeg",
     bio: "Covering the intersection of AI and cybersecurity — from adversarial attacks and LLM vulnerabilities to emerging defense strategies.",
   },
