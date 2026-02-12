@@ -4,7 +4,7 @@ import AuthorBio from '../../components/AuthorBio.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('pages', ({ data }) => !data.draft);
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.id.replace(/\.md$/, '') },
     props: { post },
@@ -32,7 +32,7 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
   <article class="post">
     <div class="container">
       <header class="post-header">
-        <a href="/blog" class="back-link">&larr; Back to Blog</a>
+        <a href="/research" class="back-link">← Back to Research</a>
 
         {post.data.featured && <span class="featured-badge">Featured</span>}
 
@@ -41,11 +41,11 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
 
         <div class="post-meta">
           <span class="post-author">{author?.data.name ?? post.data.author}</span>
-          <span class="meta-sep">&middot;</span>
+          <span class="meta-sep">·</span>
           <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
           {updatedDate && (
             <>
-              <span class="meta-sep">&middot;</span>
+              <span class="meta-sep">·</span>
               <span class="updated">Updated {updatedDate}</span>
             </>
           )}
@@ -75,7 +75,7 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
       )}
 
       <footer class="post-footer">
-        <a href="/blog" class="back-link">&larr; Back to Blog</a>
+        <a href="/research" class="back-link">← Back to Research</a>
       </footer>
     </div>
   </article>

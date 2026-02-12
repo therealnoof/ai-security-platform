@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 export async function GET() {
   const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
   const digests = await getCollection('digests', ({ data }) => !data.draft);
+  const pages = await getCollection('pages', ({ data }) => !data.draft);
 
   const items = [
     ...blogPosts.map((post) => ({
@@ -10,7 +11,7 @@ export async function GET() {
       description: post.data.description,
       tags: post.data.tags,
       highlights: [],
-      url: `/blog/${post.slug}/`,
+      url: `/research/${post.slug}/`,
       type: 'research',
       pubDate: post.data.pubDate.toISOString(),
     })),
@@ -22,6 +23,15 @@ export async function GET() {
       url: `/digests/${digest.slug}/`,
       type: 'digest',
       pubDate: digest.data.pubDate.toISOString(),
+    })),
+    ...pages.map((page) => ({
+      title: page.data.title,
+      description: page.data.description,
+      tags: page.data.tags,
+      highlights: [],
+      url: `/blog/${page.slug}/`,
+      type: 'blog',
+      pubDate: page.data.pubDate.toISOString(),
     })),
   ];
 

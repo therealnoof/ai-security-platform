@@ -177,6 +177,11 @@
     color: var(--color-accent-blue);
   }
 
+  .search-results .badge-blog {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+  }
+
   .search-results .badge-digest {
     background: rgba(167, 139, 250, 0.15);
     color: var(--color-accent-purple);
@@ -280,9 +285,10 @@
       return;
     }
 
-    const grouped = { research: [], digest: [] };
+    const grouped = { research: [], blog: [], digest: [] };
     matches.forEach((m) => {
       if (m.type === 'research') grouped.research.push(m);
+      else if (m.type === 'blog') grouped.blog.push(m);
       else grouped.digest.push(m);
     });
 
@@ -294,6 +300,18 @@
           <div class="result-title">
             <span>${escapeHtml(item.title)}</span>
             <span class="result-badge badge-research">Research</span>
+          </div>
+          <div class="result-snippet">${escapeHtml(snippet(item.description))}</div>
+        </a>`;
+      });
+    }
+    if (grouped.blog.length) {
+      html += '<div class="group-label">Blog</div>';
+      grouped.blog.forEach((item) => {
+        html += `<a class="result-item" href="${item.url}">
+          <div class="result-title">
+            <span>${escapeHtml(item.title)}</span>
+            <span class="result-badge badge-blog">Blog</span>
           </div>
           <div class="result-snippet">${escapeHtml(snippet(item.description))}</div>
         </a>`;

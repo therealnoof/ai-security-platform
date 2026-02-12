@@ -3,20 +3,20 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Card from '../../components/Card.astro';
 import { getCollection } from 'astro:content';
 
-const posts = await getCollection('pages', ({ data }) => !data.draft);
+const posts = await getCollection('blog', ({ data }) => !data.draft);
 const sortedPosts = posts.sort((a, b) =>
   new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
 );
 ---
 
-<BaseLayout title="Blog" description="Thoughts, updates, and commentary on AI security.">
+<BaseLayout title="Research" description="AI security research, analysis, and threat intelligence.">
   <section class="page-header">
     <div class="page-header-bg">
-      <img src="/images/ai.jpg" alt="" role="presentation" width="1920" height="1080" />
+      <img src="/images/research.jpg" alt="" role="presentation" width="1920" height="1080" />
     </div>
     <div class="container">
-      <h1>Blog</h1>
-      <p>Thoughts, updates, and commentary on AI security topics.</p>
+      <h1>Research</h1>
+      <p>In-depth analysis of AI security vulnerabilities, attack vectors, and defense strategies.</p>
     </div>
   </section>
 
@@ -26,7 +26,7 @@ const sortedPosts = posts.sort((a, b) =>
         <div class="empty-state">
           <span class="empty-icon">📝</span>
           <h2>Coming Soon</h2>
-          <p>Blog posts are being prepared. Check back soon for new content.</p>
+          <p>Research articles are being prepared. Check back soon for in-depth AI security analysis.</p>
         </div>
       ) : (
         <div class="posts-grid">
@@ -34,7 +34,7 @@ const sortedPosts = posts.sort((a, b) =>
             <Card
               title={post.data.title}
               description={post.data.description}
-              href={`/blog/${post.id.replace(/\.md$/, '')}`}
+              href={`/research/${post.id.replace(/\.md$/, '')}`}
               date={post.data.pubDate.toISOString()}
               tags={post.data.tags}
               featured={post.data.featured}
