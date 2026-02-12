@@ -20,6 +20,9 @@ function getMondayLabel(year: number, weekNumber: number): string {
 
 <BaseLayout title="Last Week in AI" description="Weekly curated summaries of AI security news and research.">
   <section class="page-header">
+    <div class="page-header-bg">
+      <img src="/images/ai.jpg" alt="" role="presentation" width="1920" height="1080" />
+    </div>
     <div class="container">
       <h1>Last Week in AI</h1>
       <p>Curated summaries of the most important AI security developments, delivered every Friday.</p>
@@ -67,9 +70,35 @@ function getMondayLabel(year: number, weekNumber: number): string {
 
 <style>
   .page-header {
-    padding: 4rem 0 3rem;
+    position: relative;
+    padding: 6rem 0;
     text-align: center;
-    border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .page-header-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .page-header-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .page-header-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 14, 26, 0.75);
+  }
+
+  .page-header .container {
+    position: relative;
+    z-index: 1;
   }
 
   .page-header h1 {
@@ -197,7 +226,7 @@ function getMondayLabel(year: number, weekNumber: number): string {
 
   @media (max-width: 768px) {
     .page-header {
-      padding: 3rem 0 2rem;
+      padding: 4rem 0;
     }
 
     .page-header h1 {
