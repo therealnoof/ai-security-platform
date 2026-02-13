@@ -90,7 +90,8 @@ collections:
     label: "Authors"
     folder: src/content/authors
     create: true
-    slug: "{{slug}}"
+    slug: "{{name}}"
+    identifier_field: name
     extension: json
     format: json
     fields:
