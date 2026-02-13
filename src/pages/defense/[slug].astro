@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuthorBio from '../../components/AuthorBio.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('defense', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.md$/, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const author = await getEntry('authors', post.data.author);
+
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} image={post.data.image}>
+  <article class="post">
+    <div class="container">
+      <header class="post-header">
+        <a href="/defense" class="back-link">&larr; Back to Defense</a>
+
+        {post.data.featured && <span class="featured-badge">Featured</span>}
+
+        <h1>{post.data.title}</h1>
+        <p class="post-description">{post.data.description}</p>
+
+        <div class="post-meta">
+          <span class="post-author">{author?.data.name ?? post.data.author}</span>
+          <span class="meta-sep">&middot;</span>
+          <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+          {updatedDate && (
+            <>
+              <span class="meta-sep">&middot;</span>
+              <span class="updated">Updated {updatedDate}</span>
+            </>
+          )}
+        </div>
+
+        {post.data.tags.length > 0 && (
+          <div class="post-tags">
+            {post.data.tags.map((tag: string) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {post.data.image && (
+        <div class="post-cover">
+          <img src={post.data.image} alt={post.data.title} />
+        </div>
+      )}
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {author && (
+        <AuthorBio name={author.data.name} avatar={author.data.avatar} bio={author.data.bio} />
+      )}
+
+      <footer class="post-footer">
+        <a href="/defense" class="back-link">&larr; Back to Defense</a>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    padding: 2rem 0 4rem;
+  }
+
+  .post .container {
+    max-width: 800px;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent-cyan);
+  }
+
+  .featured-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
+    color: var(--color-bg-primary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .post-header h1 {
+    font-size: 2.25rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .post-description {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .post-author {
+    color: var(--color-accent-cyan);
+    font-weight: 500;
+  }
+
+  .meta-sep {
+    color: var(--color-text-muted);
+  }
+
+  .updated {
+    font-style: italic;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .post-cover {
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .post-cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 768px) {
+    .post-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .post-description {
+      font-size: 1rem;
+    }
+  }
+</style>

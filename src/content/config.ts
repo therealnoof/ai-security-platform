@@ -41,6 +41,22 @@ const digestsCollection = defineCollection({
   }),
 });
 
+// Defense articles collection
+const defenseCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    author: z.string().default('neural-threats'),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+    image: z.string().optional(),
+  }),
+});
+
 // Blog pages collection
 const pagesCollection = defineCollection({
   type: 'content',
@@ -60,6 +76,7 @@ const pagesCollection = defineCollection({
 export const collections = {
   authors: authorsCollection,
   blog: blogCollection,
+  defense: defenseCollection,
   digests: digestsCollection,
   pages: pagesCollection,
 };

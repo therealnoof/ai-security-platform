@@ -3,7 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/Card.astro';
 import { getCollection, getEntry } from 'astro:content';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
+const defensePosts = await getCollection('defense', ({ data }) => !data.draft);
+
+const collectionMap = new Map();
+blogPosts.forEach(p => collectionMap.set(p, 'research'));
+defensePosts.forEach(p => collectionMap.set(p, 'defense'));
+
+const allPosts = [...blogPosts, ...defensePosts];
 const sorted = allPosts.sort((a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf());
 const featured = sorted.filter(p => p.data.featured);
 const featuredPosts = featured.length >= 3
@@ -15,6 +22,7 @@ const featuredWithAuthors = await Promise.all(
     const authorEntry = post.data.author ? await getEntry('authors', post.data.author) : null;
     return {
       post,
+      section: collectionMap.get(post),
       authorName: authorEntry?.data.name,
       authorAvatar: authorEntry?.data.avatar,
     };
@@ -77,6 +85,7 @@ const features = [
     icon: '🛡️',
     title: 'Practical Defense',
     description: 'Actionable guidance for securing AI systems in production environments.',
+    href: '/defense',
   }
 ];
 
@@ -135,11 +144,11 @@ const features = [
     <div class="container">
       <h2>Featured Articles</h2>
       <div class="featured-grid">
-        {featuredWithAuthors.map(({ post, authorName, authorAvatar }) => (
+        {featuredWithAuthors.map(({ post, section, authorName, authorAvatar }) => (
           <Card
             title={post.data.title}
             description={post.data.description}
-            href={`/research/${post.id.replace(/\.md$/, '')}`}
+            href={`/${section}/${post.id.replace(/\.md$/, '')}`}
             date={post.data.pubDate.toISOString()}
             tags={post.data.tags}
             featured={post.data.featured}
