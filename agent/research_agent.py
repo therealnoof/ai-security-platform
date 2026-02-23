@@ -71,6 +71,27 @@ def compute_week_metadata() -> dict:
     }
 
 
+# ── Previous Digest Loading ──────────────────────────────────────────────────
+
+
+def load_previous_digest() -> str:
+    """Load the most recent existing digest to use for deduplication context."""
+    digest_files = sorted(DIGESTS_DIR.glob("*.md"), reverse=True)
+    if not digest_files:
+        return "No previous digest available — this is the first issue."
+
+    latest = digest_files[0]
+    content = latest.read_text()
+    # Truncate to a reasonable size to avoid blowing up the context
+    max_chars = 6000
+    if len(content) > max_chars:
+        content = content[:max_chars] + "\n\n[... truncated for brevity ...]"
+    return (
+        f"Previous week's digest ({latest.stem}):\n"
+        f"<previous_digest>\n{content}\n</previous_digest>"
+    )
+
+
 # ── Prompt Loading ───────────────────────────────────────────────────────────
 
 
@@ -443,6 +464,11 @@ def main():
             save_log(log)
             return
 
+        # Load previous digest for deduplication context
+        print("\n  ▶ Loading previous digest for deduplication...")
+        previous_week_content = load_previous_digest()
+        print(f"    ✓ Loaded previous digest context ({len(previous_week_content)} chars)")
+
         # Research pass (retries handled inside api_call_with_retries)
         print("\n  ▶ Research pass...")
         digest_text, research_usage = run_research_pass(
@@ -454,6 +480,7 @@ def main():
                 pub_date=meta["pub_date"],
                 date_range=meta["date_range"],
                 week_label=meta["week_label"],
+                previous_week_content=previous_week_content,
             ),
         )
         log["usage"]["research"] = research_usage

@@ -22,6 +22,12 @@ Use web search to find the most important AI security developments from the past
 - Check NIST, MITRE, OWASP, arXiv, The Register, BleepingComputer, SecurityWeek for relevant stories
 - If a category has no news this week, say so honestly — do not fabricate stories
 
+**Deduplication rules — DO NOT repeat content from previous weeks:**
+{previous_week_content}
+- Before including any story, cross-check it against the previous week's digest above. If a topic, report, CVE, paper, or event was already covered, do NOT feature it again — even if new commentary or analysis appeared this week.
+- Minor follow-ups to a previous story (e.g., a patch release for a CVE already covered) may be mentioned briefly in the relevant section as a one-line update, but must NOT be elevated to a Top Story or given its own subheading.
+- When in doubt, prioritize fresh content over re-reporting the same development.
+
 ---
 
 ## Output Format
@@ -80,7 +86,7 @@ Business and product developments relevant to AI security. Bullet format is fine
 Regulatory and governance developments. Include effective dates and compliance implications.
 
 ### Research Spotlight
-Notable academic papers and research findings. Include paper titles, institutions, and key findings. Link to arXiv or publisher when possible.
+Notable academic papers and research findings. Include paper titles, institutions, and key findings. **Every paper MUST include a clickable hyperlink** to the source (arXiv, DOI, publisher page, or institutional page). Use `[paper title](url)` format. If you cannot find a direct link to the paper, search specifically for it on arXiv (arxiv.org) or Google Scholar before including it. Do not list a paper without a link.
 
 ### What This Means For You
 2-3 actionable paragraphs aimed at security practitioners. What should they do this week based on the news?

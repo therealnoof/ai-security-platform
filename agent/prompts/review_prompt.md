@@ -28,6 +28,7 @@ Review the following digest against these criteria:
 - [ ] Factual claims include source links in `[text](url)` format
 - [ ] URLs are plausible and well-formed (no broken markdown links)
 - [ ] No `[text]()` empty links or `[text](example.com)` placeholder links
+- [ ] **Research Spotlight**: Every paper listed MUST have a clickable hyperlink (arXiv, DOI, or publisher). Flag any paper without a link as needing correction.
 
 ## 5. Accuracy
 - [ ] CVE IDs follow the `CVE-YYYY-NNNNN` pattern
