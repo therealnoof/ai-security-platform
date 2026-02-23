@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "started_at": "2026-02-23T05:26:35.081509+00:00",
+  "model": "claude-sonnet-4-5-20250929",
+  "usage": {
+    "research": {
+      "input_tokens": 123044,
+      "output_tokens": 6992
+    },
+    "review": {
+      "input_tokens": 5782,
+      "output_tokens": 5011
+    }
+  },
+  "week_metadata": {
+    "week_number": 8,
+    "year": 2026,
+    "pub_date": "2026-02-23",
+    "date_range": "February 16 \u2013 February 22, 2026",
+    "week_label": "February 16",
+    "filename": "2026-week-08.md"
+  },
+  "review_verdict": "CORRECTED",
+  "image": "/images/digests/alex-knight-2EJCSULRwC8-unsplash.jpg",
+  "elapsed_seconds": 325.4
+}
