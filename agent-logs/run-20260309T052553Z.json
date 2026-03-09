@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "started_at": "2026-03-09T05:20:12.910954+00:00",
+  "model": "claude-sonnet-4-5-20250929",
+  "usage": {
+    "research": {
+      "input_tokens": 127821,
+      "output_tokens": 6189
+    },
+    "review": {
+      "input_tokens": 5111,
+      "output_tokens": 4682
+    }
+  },
+  "week_metadata": {
+    "week_number": 10,
+    "year": 2026,
+    "pub_date": "2026-03-09",
+    "date_range": "March 02 \u2013 March 08, 2026",
+    "week_label": "March 2",
+    "filename": "2026-week-10.md"
+  },
+  "review_verdict": "CORRECTED",
+  "image": "/images/digests/denny-muller-JyRTi3LoQnc-unsplash.jpg",
+  "elapsed_seconds": 340.7
+}
