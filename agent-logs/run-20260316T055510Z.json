@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "started_at": "2026-03-16T05:50:00.138134+00:00",
+  "model": "claude-sonnet-4-5-20250929",
+  "usage": {
+    "research": {
+      "input_tokens": 135464,
+      "output_tokens": 6011
+    },
+    "review": {
+      "input_tokens": 5274,
+      "output_tokens": 3922
+    }
+  },
+  "week_metadata": {
+    "week_number": 11,
+    "year": 2026,
+    "pub_date": "2026-03-16",
+    "date_range": "March 09 \u2013 March 15, 2026",
+    "week_label": "March 9",
+    "filename": "2026-week-11.md"
+  },
+  "review_verdict": "CORRECTED",
+  "image": "/images/digests/emilipothese-R4WCbazrD1g-unsplash.jpg",
+  "elapsed_seconds": 310.1
+}
