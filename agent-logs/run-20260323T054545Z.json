@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "started_at": "2026-03-23T05:40:26.409847+00:00",
+  "model": "claude-sonnet-4-5-20250929",
+  "usage": {
+    "research": {
+      "input_tokens": 132738,
+      "output_tokens": 6728
+    },
+    "review": {
+      "input_tokens": 5523,
+      "output_tokens": 4908
+    }
+  },
+  "week_metadata": {
+    "week_number": 12,
+    "year": 2026,
+    "pub_date": "2026-03-23",
+    "date_range": "March 16 \u2013 March 22, 2026",
+    "week_label": "March 16",
+    "filename": "2026-week-12.md"
+  },
+  "review_verdict": "CORRECTED",
+  "image": "/images/digests/glenn-carstens-peters-npxXWgQ33ZQ-unsplash.jpg",
+  "elapsed_seconds": 318.9
+}
