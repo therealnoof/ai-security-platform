@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "started_at": "2026-04-20T06:16:40.962338+00:00",
+  "model": "claude-sonnet-4-5-20250929",
+  "usage": {
+    "research": {
+      "input_tokens": 119818,
+      "output_tokens": 7785
+    },
+    "review": {
+      "input_tokens": 5994,
+      "output_tokens": 4747
+    }
+  },
+  "week_metadata": {
+    "week_number": 16,
+    "year": 2026,
+    "pub_date": "2026-04-20",
+    "date_range": "April 13 \u2013 April 19, 2026",
+    "week_label": "April 13",
+    "filename": "2026-week-16.md"
+  },
+  "review_verdict": "CORRECTED",
+  "image": "/images/digests/pexels-mikhail-nilov-6963098.jpg",
+  "elapsed_seconds": 375.6
+}
