@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "started_at": "2026-05-25T08:22:37.838680+00:00",
+  "model": "claude-sonnet-4-5-20250929",
+  "usage": {
+    "research": {
+      "input_tokens": 87894,
+      "output_tokens": 7061
+    },
+    "review": {
+      "input_tokens": 6007,
+      "output_tokens": 5747
+    }
+  },
+  "week_metadata": {
+    "week_number": 21,
+    "year": 2026,
+    "pub_date": "2026-05-25",
+    "date_range": "May 18 \u2013 May 24, 2026",
+    "week_label": "May 18",
+    "filename": "2026-week-21.md"
+  },
+  "review_verdict": "CORRECTED",
+  "image": "/images/digests/red.jpg",
+  "elapsed_seconds": 343.5
+}
